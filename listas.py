@@ -1,4 +1,5 @@
 import argparse
+import sys
 from decouple import config
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -8,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as ec
 
 parser = argparse.ArgumentParser()
 parser.add_argument("lista", help="endereço da lista de email")
-parser.add_argument("emails", help="arquivo de emails")
+parser.add_argument("emails", nargs='?', help="arquivo de emails")
 args = parser.parse_args()
 
 login = config('LOGIN')
@@ -16,7 +17,11 @@ password = config('PASSWORD')
 grupo, dominio = args.lista.split('@')
 mailfile = args.emails
 url = 'https://groups.google.com/a/'+dominio+'/forum/#!managemembers/'+grupo+'/add'
-emails = open(mailfile, 'r').read().splitlines()
+
+if (args.emails):
+    emails = open(mailfile, 'r').read().splitlines()
+else:
+    emails = [line.rstrip() for line in sys.stdin]
 
 # browser
 browser = webdriver.Firefox()
