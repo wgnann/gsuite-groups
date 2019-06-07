@@ -1,15 +1,20 @@
+import argparse
 from decouple import config
-from getpass import getpass
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
+parser = argparse.ArgumentParser()
+parser.add_argument("lista", help="endereço da lista de email")
+parser.add_argument("emails", help="arquivo de emails")
+args = parser.parse_args()
+
 login = config('LOGIN')
 password = config('PASSWORD')
-grupo, dominio = input('digite o endereço da lista: ').split('@')
-mailfile = input("digite o caminho do arquivo de emails: ")
+grupo, dominio = args.lista.split('@')
+mailfile = args.emails
 url = 'https://groups.google.com/a/'+dominio+'/forum/#!managemembers/'+grupo+'/add'
 emails = open(mailfile, 'r').read().splitlines()
 
