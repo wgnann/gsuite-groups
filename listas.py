@@ -1,11 +1,13 @@
 import argparse
+import csv
+import requests
 import sys
 from decouple import config
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 
 class GoogleGroup:
     def __init__(self, grupo, dominio):
@@ -32,15 +34,18 @@ class GoogleGroup:
         element.send_keys(password)
         element.send_keys(Keys.ENTER)
 
+        # espera carregar
+        element = wait.until(ec.presence_of_element_located((By.CLASS_NAME, "gwt-TextArea")))
+
         self.browser = browser
         self.wait = wait
 
     def subscribe(self, emails):
-        browser = self.browser
         wait = self.wait
 
+        # neste trecho, estamos na página de subscribe
+
         # groups interface
-        element = wait.until(ec.presence_of_element_located((By.CLASS_NAME, "gwt-TextArea")))
         for email in emails:
             element.send_keys(email)
             element.send_keys(Keys.ENTER)
@@ -49,6 +54,18 @@ class GoogleGroup:
 
         # espera carregar e fecha
         element = wait.until(ec.presence_of_element_located((By.CLASS_NAME, "F0XO1GC-Nb-e")))
+
+    def list(self):
+        browser_cookies = self.browser.get_cookies()
+        session = requests.Session()
+        cookies = [session.cookies.set(c['name'], c['value']) for c in browser_cookies]
+        url = 'https://groups.google.com/a/'+self.dominio+'/forum/exportmembers/'+self.grupo
+
+        request = session.get(url)
+
+        membros = csv.reader(request.text.splitlines())
+        for membro in membros:
+            print(membro[0])
 
 def main():
     parser = argparse.ArgumentParser()
