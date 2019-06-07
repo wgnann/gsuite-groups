@@ -46,6 +46,7 @@ class GoogleGroup:
         # neste trecho, estamos na página de subscribe
 
         # groups interface
+        element = wait.until(ec.presence_of_element_located((By.CLASS_NAME, "gwt-TextArea")))
         for email in emails:
             element.send_keys(email)
             element.send_keys(Keys.ENTER)
