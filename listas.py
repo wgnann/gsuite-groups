@@ -69,20 +69,35 @@ class GoogleGroup:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("lista", help="endereço da lista de email")
-    parser.add_argument("emails", nargs='?', help="arquivo de emails")
+    subparsers = parser.add_subparsers(title="command", dest="command", required=True)
+
+    # subscribe
+    parser_subscribe = subparsers.add_parser('subscribe')
+    parser_subscribe.add_argument("lista", help="endereço da lista de email")
+    parser_subscribe.add_argument("emails", nargs='?', help="arquivo de emails")
+
+    # list
+    parser_list = subparsers.add_parser('list')
+    parser_list.add_argument("lista", help="endereço da lista de email")
+
     args = parser.parse_args()
-
     grupo, dominio = args.lista.split('@')
-    mailfile = args.emails
-
-    if (args.emails):
-        emails = open(mailfile, 'r').read().splitlines()
-    else:
-        emails = [line.rstrip() for line in sys.stdin]
-
     google = GoogleGroup(grupo, dominio)
-    google.subscribe(emails)
+
+    if (args.command == "subscribe"):
+        if (args.emails):
+            emails = open(args.emails, 'r').read().splitlines()
+        else:
+            emails = [line.rstrip() for line in sys.stdin]
+        google.subscribe(emails)
+
+    elif (args.command == "list"):
+        for member in google.list():
+            print (member)
+
+    else:
+        print("modo inválido.")
+
     google.browser.close()
 
 if __name__ == "__main__":
