@@ -2,6 +2,10 @@
 Hack para manipular listas do Google Groups usando o Selenium
 
 Dependências:
-  * selenium (python);
+  * decouple (python);
   * pyvirtualdisplay (python);
-  * geckodriver (sistema).
+  * requests (python);
+  * selenium (python);
+  * firefox (sistema)
+  * geckodriver (não tem pacote no debian);
+  * xvfb (sistema).
