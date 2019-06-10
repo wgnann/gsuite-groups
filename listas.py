@@ -65,8 +65,7 @@ class GoogleGroup:
         request = session.get(url)
 
         membros = csv.reader(request.text.splitlines())
-        for membro in membros:
-            print(membro[0])
+        return [membro[0] for membro in membros]
 
 def main():
     parser = argparse.ArgumentParser()
