@@ -3,6 +3,7 @@ import csv
 import requests
 import sys
 from decouple import config
+from pyvirtualdisplay import Display
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -82,6 +83,8 @@ def main():
 
     args = parser.parse_args()
     grupo, dominio = args.lista.split('@')
+    display = Display()
+    display.start()
     google = GoogleGroup(grupo, dominio)
 
     if (args.command == "subscribe"):
@@ -99,6 +102,7 @@ def main():
         print("modo inválido.")
 
     google.browser.close()
+    display.stop()
 
 if __name__ == "__main__":
     main()
