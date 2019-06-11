@@ -1,5 +1,6 @@
 import argparse
 import csv
+import pickle
 import requests
 import sys
 from decouple import config
@@ -63,10 +64,18 @@ class GoogleGroup:
         # espera carregar e fecha
         element = wait.until(ec.presence_of_element_located((By.CLASS_NAME, "F0XO1GC-Nb-e")))
 
-    def list(self):
-        browser_cookies = self.browser.get_cookies()
+    def list(self, dologin=True):
+        if (dologin):
+            cookies = self.browser.get_cookies()
+            with open(config('COOKIE'), "wb") as fd:
+                pickle.dump(cookies, fd)
+        else:
+            with open(config('COOKIE'), "rb") as fd:
+                cookies = pickle.load(fd)
+
         session = requests.Session()
-        cookies = [session.cookies.set(c['name'], c['value']) for c in browser_cookies]
+        for cookie in cookies:
+            session.cookies.set(cookie['name'], cookie['value'])
         url = 'https://groups.google.com/a/'+self.dominio+'/forum/exportmembers/'+self.grupo
 
         request = session.get(url)
@@ -86,14 +95,15 @@ def main():
     # list
     parser_list = subparsers.add_parser('list')
     parser_list.add_argument("lista", help="endereço da lista de email")
+    parser_list.add_argument("-l", "--login", action='store_true', help="faz login")
 
     args = parser.parse_args()
     grupo, dominio = args.lista.split('@')
     display = Display()
     display.start()
-    google = GoogleGroup(grupo, dominio)
 
     if (args.command == "subscribe"):
+        google = GoogleGroup(grupo, dominio)
         if (args.emails):
             emails = open(args.emails, 'r').read().splitlines()
         else:
@@ -101,13 +111,15 @@ def main():
         google.subscribe(emails)
 
     elif (args.command == "list"):
-        for member in google.list():
+        google = GoogleGroup(grupo, dominio, dologin=args.login)
+        for member in google.list(dologin=args.login):
             print (member)
 
     else:
         print("modo inválido.")
 
-    google.browser.close()
+    if (google.browser):
+        google.browser.close()
     display.stop()
 
 if __name__ == "__main__":
