@@ -11,9 +11,16 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 class GoogleGroup:
-    def __init__(self, grupo, dominio):
+    def __init__(self, grupo, dominio, dologin=True):
         self.grupo = grupo
         self.dominio = dominio
+        self.browser = None
+        self.wait = None
+
+        if (dologin):
+            self.browser, self.wait = self.login()
+
+    def login(self):
         login = config('LOGIN')
         password = config('PASSWORD')
         url = 'https://groups.google.com/a/'+self.dominio+'/forum/#!managemembers/'+self.grupo+'/add'
@@ -38,8 +45,7 @@ class GoogleGroup:
         # espera carregar
         element = wait.until(ec.presence_of_element_located((By.CLASS_NAME, "gwt-TextArea")))
 
-        self.browser = browser
-        self.wait = wait
+        return browser, wait
 
     def subscribe(self, emails):
         wait = self.wait

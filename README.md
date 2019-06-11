@@ -6,7 +6,7 @@ Dependências:
   * pyvirtualdisplay (python);
   * requests (python);
   * selenium (python);
-  * firefox (sistema)
+  * firefox (sistema);
   * geckodriver (não tem pacote no debian);
   * xvfb (sistema).
 
