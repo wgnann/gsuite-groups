@@ -7,7 +7,7 @@ Hack para manipular listas do Google Groups usando o Selenium
   * requests (python);
   * selenium (python);
   * firefox (sistema);
-  * geckodriver (não tem pacote no debian);
+  * [geckodriver](https://github.com/mozilla/geckodriver/releases/latest) (não tem pacote no debian);
   * xvfb (sistema).
 
 ### Instalação:
