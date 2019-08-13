@@ -85,6 +85,7 @@ class GoogleGroup:
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--debug", action='store_true', help="debug")
     subparsers = parser.add_subparsers(title="command", dest="command", required=True)
 
     # subscribe
@@ -99,8 +100,10 @@ def main():
 
     args = parser.parse_args()
     grupo, dominio = args.lista.split('@')
-    display = Display()
-    display.start()
+
+    if (not args.debug):
+        display = Display()
+        display.start()
 
     if (args.command == "subscribe"):
         google = GoogleGroup(grupo, dominio)
@@ -120,7 +123,8 @@ def main():
 
     if (google.browser):
         google.browser.close()
-    display.stop()
+    if (not args.debug):
+        display.stop()
 
 if __name__ == "__main__":
     main()
