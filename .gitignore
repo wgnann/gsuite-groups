@@ -1,0 +1,6 @@
+# vim and emacs temp files
+*~
+.env
+
+arquivodecookie
+geckodriver.log
