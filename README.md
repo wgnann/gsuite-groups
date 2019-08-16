@@ -2,13 +2,15 @@
 Hack para manipular listas do Google Groups usando o Selenium
 
 ### Dependências:
-  * decouple (python);
-  * pyvirtualdisplay (python);
-  * requests (python);
-  * selenium (python);
+  * Instalação das dependências de python listadas em requirements.txt;
   * firefox (sistema);
-  * [geckodriver](https://github.com/mozilla/geckodriver/releases/latest) (não tem pacote no debian);
   * xvfb (sistema).
+  * geckodriver (não tem pacote no debian)
+
+Baixar o [geckodriver](https://github.com/mozilla/geckodriver/releases/latest) e descompactar
+em um diretório. Colocar no PATH, exemplo:
+
+    export PATH=$PATH:/home/usuario/geckodriver
 
 ### Instalação:
   * clonar o repositório;
