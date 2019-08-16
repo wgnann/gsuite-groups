@@ -2,6 +2,7 @@
 Hack para manipular listas do Google Groups usando o Selenium
 
 ### Dependências:
+  * python 3.7
   * Instalação das dependências de python listadas em requirements.txt;
   * firefox (sistema);
   * xvfb (sistema).
