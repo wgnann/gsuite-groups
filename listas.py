@@ -80,8 +80,10 @@ class GoogleGroup:
 
         request = session.get(url)
 
-        membros = csv.reader(request.text.splitlines())
-        return [membro[0] for membro in membros]
+        raw = csv.reader(request.text.splitlines())
+        membros = [r for r in raw]
+        membros.pop(0)
+        return [membro[0] for membro in membros if membro[2] != 'banido']
 
 def main():
     parser = argparse.ArgumentParser()
