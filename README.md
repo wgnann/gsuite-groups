@@ -1,6 +1,9 @@
 # gsuite-groups
 Hack para manipular listas do Google Groups usando o Selenium
 
+## Importante
+Está quebrado: a Google mudou o formato do Groups. Contudo o login ainda funciona.
+
 ### Dependências:
   * python 3.7
   * Instalação das dependências de python listadas em requirements.txt;
