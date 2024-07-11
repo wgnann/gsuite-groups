@@ -1,11 +1,13 @@
 # gsuite-groups
-Hack para manipular listas do Google Groups usando o Selenium
+Hack para manipular coisas do Google Groups usando o Selenium
 
 ## Importante
-Está quebrado: a Google mudou o formato do Groups. Contudo o login ainda funciona.
+A parte de lista está quebrada: a Google mudou o formato do Groups. Contudo o login ainda funciona.
+
+Agora temos Google Drive. 
 
 ### Dependências:
-  * python 3.7
+  * python 3.x
   * Instalação das dependências de python listadas em requirements.txt;
   * firefox (sistema);
   * xvfb (sistema).
@@ -22,22 +24,11 @@ em um diretório. Colocar no PATH, exemplo:
   * gerar um arquivo `.env` tal qual o exemplo.
 
 ### Como rodar
-Para inscrever membros na lista, usar a opção `subscribe`. Ele pedirá para digitar os endereços, um por linha, e esperará um `CTRL+D` para encerrar o arquivo.
 ```console
-python3 listas.py subscribe sua-lista-de-email@ime.usp.br
-```
-
-Outra opção é fazer um pipe.
-```console
-cat sua-lista-antiga | python3 listas.py subscribe sua-lista-de-email@ime.usp.br
-```
-
-Para listar membros de uma lista, usar a opção `list`. Ele reaproveita cookies caso existirem. Para rodar o `list` e gerar um cookie, usar a opção `--login`.
-```console
-python3 listas.py list --login sua-lista-de-email@ime.usp.br
+python3 drive.py 0AI4iTmGhBORVUk9PVA -l
 ```
 
 Caso já existir o cookie de uma execução anterior, basta suprimir a opção ``--login``.
 ```console
-python3 listas.py list sua-lista-de-email@ime.usp.br
+python3 drive.py 0AI4iTmGhBORVUk9PVA
 ```
