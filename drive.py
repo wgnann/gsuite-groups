@@ -2,7 +2,7 @@ import argparse
 import requests
 from decouple import config
 from google import Google
-#from pyvirtualdisplay import Display
+from pyvirtualdisplay import Display
 
 def drive_info(drive_id, dologin):
     key = config('KEY')
@@ -65,9 +65,9 @@ def main():
 
     args = parser.parse_args()
 
-#   if (not args.debug):
-#       display = Display()
-#       display.start()
+    if (not args.debug):
+        display = Display()
+        display.start()
 
     drive_id = args.drive_id
     dologin = args.login
@@ -77,8 +77,8 @@ def main():
     else:
         print(drive_info(drive_id, dologin))
 
-#   if (not args.debug):
-#       display.stop()
+    if (not args.debug):
+        display.stop()
 
 if __name__ == "__main__":
     main()

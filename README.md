@@ -8,7 +8,7 @@ Agora temos Google Drive.
 
 ### Dependências:
   * python 3.x
-  * Instalação das dependências de python listadas em requirements.txt;
+  * Instalação das dependências de python listadas em requirements.txt (pode ser via sistema);
   * firefox (sistema);
   * xvfb (sistema).
   * geckodriver (não tem pacote no debian)
