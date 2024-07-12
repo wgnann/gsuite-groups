@@ -1,5 +1,5 @@
-# gsuite-groups
-Hack para manipular coisas do Google Groups usando o Selenium
+# gsuite-tools
+Hack para manipular coisas da Google usando o Selenium
 
 ## Importante
 A parte de lista está quebrada: a Google mudou o formato do Groups. Contudo o login ainda funciona.
