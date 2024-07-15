@@ -23,6 +23,12 @@ em um diretório. Colocar no PATH, exemplo:
   * instalar as dependências;
   * gerar um arquivo `.env` tal qual o exemplo.
 
+### Como achar a chave?
+Para achar a chave:
+  * abra um drive compartilhado com o developer mode ativado;
+  * filtre por `v2internal`;
+  * mande mostrar os cabeçalhos. Estará na URL como variável GET.
+
 ### Como rodar
 ```console
 python3 drive.py 0AI4iTmGhBORVUk9PVA -l
