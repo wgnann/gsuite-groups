@@ -4,12 +4,7 @@ from decouple import config
 from google import Google
 from pyvirtualdisplay import Display
 
-def drive_info(drive_id, dologin):
-    key = config('KEY')
-    origin = 'https://drive.google.com'
-    fields = 'id,name,quotaInfo(quotaBytesUsed,individualQuotaBytesTotal),permissionsSummary'
-    url = 'https://clients6.google.com/drive/v2internal/teamdrives/{drive_id}?fields={fields}&key={key}'.format(drive_id=drive_id, fields=fields, key=key)
-
+def set_session(dologin):
     g = Google(dologin)
     if (g.browser):
         g.browser.close()
@@ -17,6 +12,15 @@ def drive_info(drive_id, dologin):
     session = requests.Session()
     for cookie in g.cookies:
         session.cookies.set(cookie['name'], cookie['value'])
+
+    return g, session
+
+def drive_info(drive_id, dologin):
+    key = config('KEY')
+    origin = 'https://drive.google.com'
+    fields = 'id,name,quotaInfo(quotaBytesUsed,individualQuotaBytesTotal),permissionsSummary'
+    url = 'https://clients6.google.com/drive/v2internal/teamdrives/{drive_id}?fields={fields}&key={key}'.format(drive_id=drive_id, fields=fields, key=key)
+    g, session = set_session(dologin)
 
     headers = {}
     headers['Authorization'] = "SAPISIDHASH "+g.SAPISID_hash(origin)
@@ -33,13 +37,7 @@ def drive_adduser(drive_id, user, dologin):
     fields = 'emailAddress'
     url = 'https://clients6.google.com/drive/v2internal/files/{drive_id}/permissions?fields={fields}&supportsTeamDrives=true&key={key}'.format(drive_id=drive_id, fields=fields, key=key)
 
-    g = Google(dologin)
-    if (g.browser):
-        g.browser.close()
-
-    session = requests.Session()
-    for cookie in g.cookies:
-        session.cookies.set(cookie['name'], cookie['value'])
+    g, session = set_session(dologin)
 
     headers = {}
     headers['Authorization'] = "SAPISIDHASH "+g.SAPISID_hash(origin)
