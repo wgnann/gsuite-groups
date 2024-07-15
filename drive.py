@@ -1,4 +1,5 @@
 import argparse
+import json
 import requests
 from decouple import config
 from google import Google
@@ -32,6 +33,16 @@ def drive_info(drive_id, dologin):
 
     return response.text
 
+def email2id(drive_id, user, dologin):
+    info = drive_info(drive_id, dologin)
+    info_dict = json.loads(info)
+    users = info_dict['permissionsSummary']['selectPermissions']
+
+    for u in users:
+        if u['emailAddress'] == user:
+            return u['id']
+    return None
+
 def drive_adduser(drive_id, user, dologin):
     key = config('KEY')
     fields = 'emailAddress'
@@ -50,7 +61,7 @@ def drive_adduser(drive_id, user, dologin):
 
 def drive_deluser(drive_id, user, dologin):
     key = config('KEY')
-    user_id = '01309928095134524087'
+    user_id = email2id(drive_id, user, dologin)
     url = 'https://clients6.google.com/drive/v2internal/files/{drive_id}/permissions/{user_id}?supportsTeamDrives=true&key={key}'.format(drive_id=drive_id, user_id=user_id, key=key)
 
     session = set_session(dologin)
