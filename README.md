@@ -38,3 +38,13 @@ Caso já existir o cookie de uma execução anterior, basta suprimir a opção `
 ```console
 python3 drive.py 0AI4iTmGhBORVUk9PVA
 ```
+
+### Como rodar com Docker
+```console
+# assumiremos que foi clonado para /tmp/gsuite-tools
+#             que COOKIE=cookie
+
+docker build -t gsuite-tools .
+touch cookie
+docker run --rm --env-file .env -v /tmp/gsuite-tools/cookie:/root/gsuite-tools/cookie -it gsuite-tools python3 drive.py 0AI4iTmGhBORVUk9PVA -l
+```
